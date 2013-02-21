@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
 		xmlns:Themes="assembly=PresentationFramework.Aero" mc:Ignorable="d" x:Class="TTPlayer.MainWindow"
+        Name="test"
         Title="MainWindow" Height="590.334" Width="805.333" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" WindowStyle="None" MinWidth="800" Foreground="{x:Null}" Closing="Window_Closing_1" MouseDown="Window_MouseDown_1">
 	<Window.Resources>
 		<SolidColorBrush x:Key="ListBorder" Color="#828790"/>
@@ -286,7 +287,7 @@
 							</Storyboard>
 						</ControlTemplate.Resources>
 						<Border x:Name="border" SnapsToDevicePixels="true" Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}" Padding="{TemplateBinding Padding}" BorderBrush="#AFDEAC56">
-							<ContentPresenter x:Name="contentPresenter" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" RecognizesAccessKey="True"/>
+							<ContentPresenter x:Name="contentPresenter" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" RecognizesAccessKey="True" Height="16"/>
 						</Border>
 						<ControlTemplate.Triggers>
 							<EventTrigger RoutedEvent="Mouse.MouseLeave">
@@ -799,7 +800,7 @@
 				</TransformGroup>
 			</TextBlock.RenderTransform>
 		</TextBlock>
-        <Label x:Name="Lbl_time" Height="24" Content="" ScrollViewer.VerticalScrollBarVisibility="Disabled" BorderThickness="1" BorderBrush="#AFDEAC56" Background="{x:Null}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Bottom" Margin="309,0,309,15" Style="{DynamicResource LabelStyle1}" />
+        <Label x:Name="Lbl_time" Content="" Height="24" ScrollViewer.VerticalScrollBarVisibility="Disabled" BorderThickness="1" BorderBrush="#AFDEAC56" Background="{x:Null}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Bottom" Margin="309,0,309,15" Style="{DynamicResource LabelStyle1}" />
 		<Slider x:Name="Slider_Search" Height="27" Style="{DynamicResource TTSlider}" Margin="22,0,0,45.667" VerticalAlignment="Bottom" IsMoveToPointEnabled="True" HorizontalAlignment="Left" Width="762.689" ValueChanged="Slider_Search_ValueChanged" />
 		<Slider x:Name="Slider_vol" Height="25" Style="{DynamicResource TTSlider}" ScrollViewer.VerticalScrollBarVisibility="Disabled" Margin="608,0,20.644,15" VerticalAlignment="Bottom" IsMoveToPointEnabled="True" ValueChanged="Slider_vol_ValueChanged"/>
         <ListView x:Name="Lst_song" ItemsSource="{Binding _QueueManager}" HorizontalAlignment="Left" Margin="0,29,0,87" Style="{DynamicResource ListBoxStyle1}" Width="230" Background="{x:Null}" BorderBrush="#AFDEAC56" BorderThickness="0,1,1,1" AllowDrop="True" MouseDoubleClick="Lst_song_MouseDoubleClick" Drop="Lst_song_Drop">
@@ -839,7 +840,7 @@
 			</Button.Background>
 		</Button>
         <Label HorizontalAlignment="Right" Margin="0,0,118,77.667" x:Name="lbl_pp" Width="40" Height="25" VerticalAlignment="Bottom" FontSize="10" Content="Play"/>
-        <Label x:Name="Lbl_time_Copy" Height="24" Content="" ScrollViewer.VerticalScrollBarVisibility="Disabled" BorderThickness="1" BorderBrush="#AFDEAC56" Background="{x:Null}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Bottom" Margin="22,0,596,15" Style="{DynamicResource LabelStyle1}" />
+        <Label x:Name="Lbl_info" Height="24" Content="" ScrollViewer.VerticalScrollBarVisibility="Disabled" BorderThickness="1" BorderBrush="#AFDEAC56" Background="{x:Null}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Bottom" Margin="22,0,596,15" Style="{DynamicResource LabelStyle1}" />
         <Button x:Name="btnPrev" Height="53" Margin="592.666,435,166.334,0" VerticalAlignment="Top" Background="{x:Null}" Click="btnPrev_Click">
         	<Image x:Name="t_prew" Width="35" Source="img/prew.png" HorizontalAlignment="Left" Height="47" />
         </Button>

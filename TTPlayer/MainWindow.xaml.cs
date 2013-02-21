@@ -38,49 +38,16 @@ namespace TTPlayer
             //Test ListView 
             Lst_song.ItemsSource = _QueueManager;
 
-            for (int i = 0; i < 3; i++)
-                _QueueManager.AddElement("a");
-
-            //Test FMOD
-
-
-
-            /*String path;
-
-            Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
-
-
-
-            // Set filter for file extension and default file extension 
-            dlg.DefaultExt = ".txt";
-            dlg.Filter = "MP3 Files (*.mp3)|*.mp3|PNG Files (*.png)|*.png|JPG Files (*.jpg)|*.jpg|GIF Files (*.gif)|*.gif";
-
-
-            // Display OpenFileDialog by calling ShowDialog method 
-            Nullable<bool> re = dlg.ShowDialog();
-
-
-            // Get the selected file name and display in a TextBox 
-            if (re == true)
-            {
-                // Open document 
-                path = dlg.FileName;
-                FManager.Play(path);
-                FManager.Pause();
-            }
-            */
-
-
-
-
         }
 
 
         private void SetUpGUI()
         {
 
-            FManager = new FMODSongManager(Slider_Search, Slider_vol, this.Dispatcher);
+            FManager = new FMODSongManager(Slider_Search, Slider_vol, this.Dispatcher, this.Lbl_info, this.Lbl_time);
             _QueueManager = new QueueManager(FManager);
+
+            FManager.setQueue(_QueueManager);
 
             CkCoro.Foreground = Brushes.PaleVioletRed;
             CkDelay.Foreground = Brushes.OrangeRed;
@@ -126,9 +93,12 @@ namespace TTPlayer
         private void Lst_song_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             // TODO: Add event handler implementation here.
+            if (Lst_song.SelectedIndex == -1)
+            {
+                return;
+            }
             Song sel = Lst_song.Items[Lst_song.SelectedIndex] as Song;
-            sel.isPlay = true;
-            Console.WriteLine(sel.ID);
+            FManager.Play(sel);
         }
 
         private void btnPlayPause_Click(object sender, RoutedEventArgs e)

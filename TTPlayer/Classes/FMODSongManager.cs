@@ -8,6 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Threading;
 
 using HundredMilesSoftware.UltraID3Lib;
+using System.ComponentModel;
 
 namespace TTPlayer.Classes
 {
@@ -15,6 +16,7 @@ namespace TTPlayer.Classes
     {
         //UI Element
         private Slider s_song, s_vol;
+        private Label info, time;
 
         //FMOD 
         private FMOD.System system = null;
@@ -25,7 +27,7 @@ namespace TTPlayer.Classes
 
         private uint ms = 0;
         private uint lenms = 0;
-        private float volume = 0;
+        private float volume = 0.2f;
         private bool playing = false;
         private bool _isPaused = false;
 
@@ -34,13 +36,24 @@ namespace TTPlayer.Classes
         private System.Threading.Thread newThread;
         private bool _isThRunning = true;
 
+        //Lista canzoni
+        private QueueManager lstCanzoni;
+
+        //Song corrente
+        private Song current = null;
+
+        //Time Per la UI
+        private string _time;
+
+
         //Costruttore, necessita di tutti gli UI Element a cui fare l'update
-        public FMODSongManager(Slider l, Slider v, Dispatcher d)
+        public FMODSongManager(Slider l, Slider v, Dispatcher d, Label i, Label t)
         {
             this.s_song = l;
             this.s_vol = v;
             this._dispatcher = d;
-
+            this.info = i;
+            this.time = t;
 
             /*
                 Create a System object and initialize.
@@ -65,13 +78,20 @@ namespace TTPlayer.Classes
 
         }
 
+        public void setQueue(QueueManager q)
+        {
+            this.lstCanzoni = q;
+        }
+
+
         //Check error per FMOD
         private void ERRCHECK(FMOD.RESULT result)
         {
             if (result != FMOD.RESULT.OK)
             {
-                MessageBox.Show("FMOD error! " + result + " - " + FMOD.Error.String(result));
-                Environment.Exit(-1);
+                //MessageBox.Show("A:FMOD error! " + result + " - " + FMOD.Error.String(result));
+                //Environment.Exit(-1);
+                Console.WriteLine("A:FMOD error! " + result + " - " + FMOD.Error.String(result));
             }
         }
 
@@ -92,20 +112,42 @@ namespace TTPlayer.Classes
 
         public void Play(Song s)
         {
-            result = system.createSound(s.Url, FMOD.MODE.SOFTWARE, ref sound);
+            if (current != null)
+                current.isPlay = false;
+
+            current = s;
+            s.isPlay = true;
+            this.lstCanzoni.setPlay(s);
+
+            //CHIUDO LA VECCHIA
+            if (channel != null)
+            {
+                result = channel.stop();
+                //ERRCHECK(result);
+            }
+            if (sound != null)
+            {
+                result = sound.release();
+                ERRCHECK(result);
+            }
+
+            result = system.createSound(s.Url, FMOD.MODE.CREATESTREAM, ref sound);
             ERRCHECK(result);
             result = sound.setMode(FMOD.MODE.LOOP_OFF);
             ERRCHECK(result);
 
             result = system.playSound(FMOD.CHANNELINDEX.FREE, sound, false, ref channel);
             ERRCHECK(result);
-
-            this.setState();
+            //Ripristino il volume dell'utente
+            this.setVolume(this.volume);
         }
 
         //THREAD che se c'è una canzone in exe calcola i tempi
         private void checkState()
         {
+            uint mn = 0;
+            uint s = 0;
+            string tmp = "";
             while (_isThRunning)
             {
                 if (!_isPaused)
@@ -135,8 +177,52 @@ namespace TTPlayer.Classes
                             }
                         }
 
-                        result = channel.getVolume(ref volume);
-                        ERRCHECK(result);
+                        #region "Calcola Tempo Canzone"
+                        mn = ms / 1000 / 60;
+                        s = ms / 1000 % 60;
+                        if (mn < 10)
+                        {
+                            tmp = "0" + mn;
+                        }
+                        else
+                        {
+                            tmp = mn + "";
+                        }
+                        if (s < 10)
+                        {
+                            tmp += ":0" + s + "/";
+                        }
+                        else
+                        {
+                            tmp += ":" + s + "/";
+                        }
+                        mn = lenms / 1000 / 60;
+                        s = lenms / 1000 % 60;
+                        if (mn < 10)
+                        {
+                            tmp += "0" + mn;
+                        }
+                        else
+                        {
+                            tmp += mn + "";
+                        }
+                        if (s < 10)
+                        {
+                            tmp += ":0" + s;
+                        }
+                        else
+                        {
+                            tmp += ":" + s;
+                        }
+                        _time = tmp;
+                        #endregion
+
+                        //Dobbiamo passare alla successiva?
+                        if (ms == lenms && ms != 0)
+                        {
+                            Song sn = lstCanzoni.Next();
+                            this.Play(sn);
+                        }
                     }
                     _dispatcher.Invoke(DispatcherPriority.Normal, new Action(this.setState));
                     System.Threading.Thread.Sleep(10);
@@ -154,6 +240,8 @@ namespace TTPlayer.Classes
             s_vol.Value = volume;
             s_vol.Minimum = 0;
             s_vol.Maximum = 1;
+
+            time.Content = _time;
         }
 
         //Pausa e Resume
@@ -185,6 +273,7 @@ namespace TTPlayer.Classes
             if (channel != null)
             {
                 channel.setVolume(v);
+                this.volume = v;
             }
         }
 
@@ -215,5 +304,6 @@ namespace TTPlayer.Classes
             u.Read(path);
             return u.Title;
         }
+
     }
 }
