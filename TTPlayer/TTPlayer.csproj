@@ -73,6 +73,7 @@
     <Compile Include="Classes\FMODSongManager.cs" />
     <Compile Include="Classes\QueueManager.cs" />
     <Compile Include="Classes\Song.cs" />
+    <Compile Include="Classes\Utility.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -115,6 +116,7 @@
     <Resource Include="img\prew.png" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="img\play.png" />
     <Content Include="Lib\UltraID3Lib.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

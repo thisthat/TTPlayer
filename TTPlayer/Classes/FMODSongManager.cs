@@ -7,7 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
 
-using HundredMilesSoftware.UltraID3Lib;
+
 using System.ComponentModel;
 
 namespace TTPlayer.Classes
@@ -242,10 +242,24 @@ namespace TTPlayer.Classes
             s_vol.Maximum = 1;
 
             time.Content = _time;
+            if(current != null)
+                info.Content = current.Tag.Artist;
+        }
+
+        public void setNext()
+        {
+            Song sn = lstCanzoni.Next();
+            this.Play(sn);
+        }
+
+        public void setPrev()
+        {
+            Song sn = lstCanzoni.Prev();
+            this.Play(sn);
         }
 
         //Pausa e Resume
-        public void Pause()
+        public bool Pause()
         {
             if (playing)
             {
@@ -257,6 +271,7 @@ namespace TTPlayer.Classes
             {
                 _isPaused = false;
             }
+            return _isPaused;
         }
 
         //Spostiamo la canzone in avanti e dietro
@@ -297,13 +312,7 @@ namespace TTPlayer.Classes
             _isThRunning = false;
         }
 
-        //GET ID3 TAG
-        public string getTagTitle(string path)
-        {
-            UltraID3 u = new UltraID3();
-            u.Read(path);
-            return u.Title;
-        }
+        
 
     }
 }

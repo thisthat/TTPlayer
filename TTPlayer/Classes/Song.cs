@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using HundredMilesSoftware.UltraID3Lib;
 
 namespace TTPlayer.Classes
 {
@@ -25,6 +26,12 @@ namespace TTPlayer.Classes
         public int ID
         {
             get { return _id; }
+        }
+
+        public UltraID3 Tag
+        {
+            get;
+            set;
         }
 
         public string Name
@@ -86,6 +93,13 @@ namespace TTPlayer.Classes
             this._name = name;
             this._url = url;
             this._isPlay = play;
+        }
+
+        public Song(string url, string name, UltraID3 u)
+        {
+            this._name = name;
+            this._url = url;
+            this.Tag = u;
         }
 
     }

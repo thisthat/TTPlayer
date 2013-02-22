@@ -844,7 +844,7 @@
         <Button x:Name="btnPrev" Height="53" Margin="592.666,435,166.334,0" VerticalAlignment="Top" Background="{x:Null}" Click="btnPrev_Click">
         	<Image x:Name="t_prew" Width="35" Source="img/prew.png" HorizontalAlignment="Left" Height="47" />
         </Button>
-        <Button x:Name="btnNext" Height="53" Margin="738.356,435,20.644,0" VerticalAlignment="Top" Background="{x:Null}">
+        <Button x:Name="btnNext" Height="53" Margin="738.356,435,20.644,0" VerticalAlignment="Top" Background="{x:Null}" Click="btnNext_Click">
         	<Image HorizontalAlignment="Left" x:Name="next_t" Source="img/next.png" Width="32" Height="44" />
         </Button>
         <Button x:Name="btnPlayPause" Height="53" Margin="665,435,94,0" VerticalAlignment="Top" Background="{x:Null}" Click="btnPlayPause_Click">

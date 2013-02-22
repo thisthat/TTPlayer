@@ -45,7 +45,7 @@ namespace TTPlayer
         {
 
             FManager = new FMODSongManager(Slider_Search, Slider_vol, this.Dispatcher, this.Lbl_info, this.Lbl_time);
-            _QueueManager = new QueueManager(FManager);
+            _QueueManager = new QueueManager();
 
             FManager.setQueue(_QueueManager);
 
@@ -83,10 +83,31 @@ namespace TTPlayer
             DragMove();
         }
 
+        private void btnPlayPause_Click(object sender, RoutedEventArgs e)
+        {
+            Image myImage3 = new Image();
+            BitmapImage bi3 = new BitmapImage();
+            bi3.BeginInit();
+            if (FManager.Pause())
+            {
+                //Siamo in pausa
+                bi3.UriSource = new Uri("img/play.png", UriKind.Relative);
+            }
+            else
+            {
+                //Play
+                bi3.UriSource = new Uri("img/pausa.png", UriKind.Relative);
+            }
+            bi3.EndInit();
+            play.Source = bi3;
+        }
+        private void btnNext_Click(object sender, RoutedEventArgs e)
+        {
+            FManager.setNext();
+        }
         private void btnPrev_Click(object sender, RoutedEventArgs e)
         {
-
-
+            FManager.setPrev();
         }
 
 
@@ -101,10 +122,7 @@ namespace TTPlayer
             FManager.Play(sel);
         }
 
-        private void btnPlayPause_Click(object sender, RoutedEventArgs e)
-        {
-            FManager.Pause();
-        }
+        
 
         private void Slider_vol_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
@@ -133,6 +151,7 @@ namespace TTPlayer
             }
         }
 
+       
 
 
     }

@@ -13,7 +13,6 @@ namespace TTPlayer.Classes
 
     class QueueManager : ObservableCollection<Song>
     {
-        FMODSongManager FMODManager;
         int minID = 0;
         int maxID = 0;
         bool random = false;
@@ -21,10 +20,10 @@ namespace TTPlayer.Classes
 
         List<int> l = new List<int>();
 
-        public QueueManager(FMODSongManager manager)
+        public QueueManager()
             : base()
         {
-            this.FMODManager = manager;
+            
         }
         //Singolo
         public void AddElement(string abc)
@@ -37,6 +36,7 @@ namespace TTPlayer.Classes
         //Lista Elm Drop
         public void AddElement(StringCollection files)
         {
+            HundredMilesSoftware.UltraID3Lib.UltraID3 u;
             foreach (string path in files)
             {
                 if (is_dir(path))
@@ -46,7 +46,8 @@ namespace TTPlayer.Classes
                 }
                 else if (validExt(path))
                 {
-                    this.Add(new Song(path, FMODManager.getTagTitle(path)));
+                    u = Utility.getTag(path);
+                    this.Add(new Song(path, u.Title, u));
                 }
             }
             this.minID = this.First().ID;
@@ -56,6 +57,7 @@ namespace TTPlayer.Classes
         //Lista Path
         public void AddElement(string[] paths)
         {
+            HundredMilesSoftware.UltraID3Lib.UltraID3 u;
             foreach (string path in paths)
             {
                 if (is_dir(path))
@@ -65,7 +67,8 @@ namespace TTPlayer.Classes
                 }
                 else if (validExt(path))
                 {
-                    this.Add(new Song(path, FMODManager.getTagTitle(path)));
+                    u = Utility.getTag(path);
+                    this.Add(new Song(path, u.Title, u));
                 }
             }
             this.minID = (this.Count != 0) ? this.First().ID : 0;
@@ -109,6 +112,27 @@ namespace TTPlayer.Classes
             if (curElm > this.maxID)
             {
                 curElm = 0;
+            }
+            Console.WriteLine("c: {0}", curElm);
+            if (random)
+            {
+                elm = this.First(I => I.ID == this.l[curElm]);
+            }
+            else
+            {
+                elm = this.First(I => I.ID == this.curElm);
+            }
+            return elm;
+        }
+
+        //Restituiamo la canzone precedente
+        public Song Prev()
+        {
+            Song elm;
+            curElm--;
+            if (curElm < this.minID)
+            {
+                curElm = this.maxID;
             }
             Console.WriteLine("c: {0}", curElm);
             if (random)
