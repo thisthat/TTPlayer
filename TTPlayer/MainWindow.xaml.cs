@@ -57,8 +57,8 @@ namespace TTPlayer
             CkHighPass.Foreground = Brushes.Green;
             CkLowPass.Foreground = Brushes.Orange;
             CkTremolo.Foreground = Brushes.Red;
-            CkRiverbero.Foreground = Brushes.Chocolate;
-            CkSoftware.Foreground = Brushes.Teal;
+            //CkRiverbero.Foreground = Brushes.Chocolate;
+            //CkSoftware.Foreground = Brushes.Teal;
         }
 
         private void btn_exit_Click(object sender, RoutedEventArgs e)
@@ -151,7 +151,55 @@ namespace TTPlayer
             }
         }
 
-       
+        private void CkLowPass_Click(object sender, RoutedEventArgs e)
+        {
+            CheckBox c = (CheckBox)sender;
+            c.IsChecked = FManager.setDsp(DSP_TYPE.LOWPASS);
+        }
+
+        private void CkHighPass_Click(object sender, RoutedEventArgs e)
+        {
+            CheckBox c = (CheckBox)sender;
+            c.IsChecked = FManager.setDsp(DSP_TYPE.HIGHPASS);
+        }
+
+        private void CkDisorsione_Click(object sender, RoutedEventArgs e)
+        {
+            CheckBox c = (CheckBox)sender;
+            c.IsChecked = FManager.setDsp(DSP_TYPE.DISTORTION);
+        }
+
+        private void CkDelay_Click(object sender, RoutedEventArgs e)
+        {
+            CheckBox c = (CheckBox)sender;
+            c.IsChecked = FManager.setDsp(DSP_TYPE.DELAY);
+        }
+
+        private void CkFlange_Click(object sender, RoutedEventArgs e)
+        {
+            CheckBox c = (CheckBox)sender;
+            c.IsChecked = FManager.setDsp(DSP_TYPE.FLANGE);
+        }
+
+        private void CkTremolo_Click(object sender, RoutedEventArgs e)
+        {
+            CheckBox c = (CheckBox)sender;
+            c.IsChecked = FManager.setDsp(DSP_TYPE.TREMOLO);
+        }
+
+        private void CkEcho_Click(object sender, RoutedEventArgs e)
+        {
+            CheckBox c = (CheckBox)sender;
+            c.IsChecked = FManager.setDsp(DSP_TYPE.ECHO);
+        }
+
+        private void CkCoro_Click(object sender, RoutedEventArgs e)
+        {
+            CheckBox c = (CheckBox)sender;
+            c.IsChecked = FManager.setDsp(DSP_TYPE.CHORUS);
+        }
+
+        
 
 
     }

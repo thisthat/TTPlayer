@@ -15,14 +15,28 @@ namespace TTPlayer.Classes
         {
             UltraID3 u = new UltraID3();
             u.Read(path);
-            return u.Title;
+            if (u.Title.Trim() == "")
+            {
+                return getFileName(path);
+            }
+            else
+            {
+                return u.Title;
+            }
         }
+
+
 
         static public UltraID3 getTag(string path)
         {
             UltraID3 u = new UltraID3();
             u.Read(path);
             return u;
+        }
+
+        static public string getFileName(string path)
+        {
+            return path.Split('\\').Last();
         }
     }
 }

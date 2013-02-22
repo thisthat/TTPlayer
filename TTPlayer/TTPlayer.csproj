@@ -102,9 +102,9 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
-    <None Include="img\Sfondo.png">
+    <EmbeddedResource Include="img\Sfondo.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -114,6 +114,7 @@
     <Resource Include="img\next.png" />
     <Resource Include="img\pausa.png" />
     <Resource Include="img\prew.png" />
+    <Resource Include="Sfondo.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="img\play.png" />

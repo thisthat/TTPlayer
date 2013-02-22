@@ -31,6 +31,17 @@ namespace TTPlayer.Classes
         private bool playing = false;
         private bool _isPaused = false;
 
+        //DSP
+        private FMOD.DSP lowPass = null; private bool isLowPass = false;
+        private FMOD.DSP highPass = null; private bool isHighPass = false;
+        private FMOD.DSP distorsione = null; private bool isDistorsione = false;
+        private FMOD.DSP delay = null; private bool isDelay = false;
+        private FMOD.DSP flange = null; private bool isFlange = false;
+        private FMOD.DSP tremolo = null; private bool isTremolo = false;
+        private FMOD.DSP echo = null; private bool isEcho = false;
+        private FMOD.DSP chorus = null; private bool isChorus = false;
+        private FMOD.DSPConnection dspCon = null;
+
         //Thread Di Aggiornamento UI
         private Dispatcher _dispatcher;
         private System.Threading.Thread newThread;
@@ -71,6 +82,8 @@ namespace TTPlayer.Classes
 
             result = system.init(32, FMOD.INITFLAGS.NORMAL, (IntPtr)null);
             ERRCHECK(result);
+
+            Init_DSP();
 
             //Avvio il thread di aggiornamento UI
             newThread = new System.Threading.Thread(this.checkState);
@@ -140,6 +153,17 @@ namespace TTPlayer.Classes
             ERRCHECK(result);
             //Ripristino il volume dell'utente
             this.setVolume(this.volume);
+            //Ripristino i DSP
+            if (this.isLowPass)
+            {
+                result = channel.addDSP(lowPass, ref dspCon);
+                ERRCHECK(result);
+            }
+            if (this.isHighPass)
+            {
+                result = channel.addDSP(highPass, ref dspCon);
+                ERRCHECK(result);
+            }
         }
 
         //THREAD che se c'è una canzone in exe calcola i tempi
@@ -242,7 +266,7 @@ namespace TTPlayer.Classes
             s_vol.Maximum = 1;
 
             time.Content = _time;
-            if(current != null)
+            if (current != null)
                 info.Content = current.Tag.Artist;
         }
 
@@ -312,7 +336,194 @@ namespace TTPlayer.Classes
             _isThRunning = false;
         }
 
-        
+        #region "DSP"
+
+        private void Init_DSP()
+        {
+
+            result = system.createDSPByType(FMOD.DSP_TYPE.LOWPASS, ref lowPass);
+            ERRCHECK(result);
+
+            result = system.createDSPByType(FMOD.DSP_TYPE.HIGHPASS, ref highPass);
+            ERRCHECK(result);
+
+            result = system.createDSPByType(FMOD.DSP_TYPE.DISTORTION, ref distorsione);
+            ERRCHECK(result);
+
+            result = system.createDSPByType(FMOD.DSP_TYPE.DELAY, ref delay);
+            ERRCHECK(result);
+
+            result = system.createDSPByType(FMOD.DSP_TYPE.FLANGE, ref flange);
+            ERRCHECK(result);
+
+            result = system.createDSPByType(FMOD.DSP_TYPE.TREMOLO, ref tremolo);
+            ERRCHECK(result);
+
+            result = system.createDSPByType(FMOD.DSP_TYPE.ECHO, ref echo);
+            ERRCHECK(result);
+
+            result = system.createDSPByType(FMOD.DSP_TYPE.CHORUS, ref chorus);
+            ERRCHECK(result);
+        }
+
+        private bool setDspLowPass()
+        {
+            if (this.isLowPass)
+            {
+                result = lowPass.remove();
+                ERRCHECK(result);
+            }
+            else
+            {
+                if (channel != null)
+                {
+                    result = channel.addDSP(lowPass, ref dspCon);
+                    ERRCHECK(result);
+                }
+            }
+            this.isLowPass = !this.isLowPass;
+            return this.isLowPass;
+        }
+        private bool setDspHighPass()
+        {
+            if (this.isHighPass)
+            {
+                result = highPass.remove();
+                highPass.disconnectAll(true, true);
+                ERRCHECK(result);
+            }
+            else
+            {
+                if (channel != null)
+                {
+                    result = channel.addDSP(highPass, ref dspCon);
+                    ERRCHECK(result);
+                }
+            }
+            this.isHighPass = !this.isHighPass;
+            return this.isHighPass;
+        }
+        private bool setDspDistorsione()
+        {
+            if (this.isDistorsione)
+            {
+                result = distorsione.remove();
+                ERRCHECK(result);
+            }
+            else
+            {
+                if (channel != null)
+                {
+                    result = channel.addDSP(distorsione, ref dspCon);
+                }
+            }
+            this.isDistorsione = !this.isDistorsione;
+            return this.isDistorsione;
+        }
+        private bool setDspDelay()
+        {
+            if (this.isDelay)
+            {
+                result = delay.remove();
+                ERRCHECK(result);
+            }
+            else
+            {
+                if (channel != null)
+                {
+                    result = channel.addDSP(delay, ref dspCon);
+                }
+            }
+            this.isDelay = !this.isDelay;
+            return this.isDelay;
+        }
+        private bool setDspFlange()
+        {
+            if (this.isFlange)
+            {
+                result = flange.remove();
+                ERRCHECK(result);
+            }
+            else
+            {
+                if (channel != null)
+                {
+                    result = channel.addDSP(flange, ref dspCon);
+                }
+            }
+            this.isFlange = !this.isFlange;
+            return this.isFlange;
+        }
+        private bool setDspTremolo()
+        {
+            if (this.isTremolo)
+            {
+                result = tremolo.remove();
+                ERRCHECK(result);
+            }
+            else
+            {
+                if (channel != null)
+                {
+                    result = channel.addDSP(tremolo, ref dspCon);
+                }
+            }
+            this.isTremolo = !this.isTremolo;
+            return this.isTremolo;
+        }
+        private bool setDspEcho()
+        {
+            if (this.isEcho)
+            {
+                result = echo.remove();
+                ERRCHECK(result);
+            }
+            else
+            {
+                if (channel != null)
+                {
+                    result = channel.addDSP(echo, ref dspCon);
+                }
+            }
+            this.isEcho = !this.isEcho;
+            return this.isEcho;
+        }
+        private bool setDspChorus()
+        {
+            if (this.isChorus)
+            {
+                result = chorus.remove();
+                ERRCHECK(result);
+            }
+            else
+            {
+                if (channel != null)
+                {
+                    result = channel.addDSP(chorus, ref dspCon);
+                }
+            }
+            this.isChorus = !this.isChorus;
+            return this.isChorus;
+        }
+
+        public bool setDsp(FMOD.DSP_TYPE type)
+        {
+            switch (type)
+            {
+                case FMOD.DSP_TYPE.LOWPASS: return this.setDspLowPass();
+                case FMOD.DSP_TYPE.HIGHPASS: return this.setDspHighPass(); 
+                case FMOD.DSP_TYPE.DISTORTION: return this.setDspDistorsione();
+                case FMOD.DSP_TYPE.DELAY: return this.setDspDelay(); 
+                case FMOD.DSP_TYPE.FLANGE: return this.setDspFlange();
+                case FMOD.DSP_TYPE.TREMOLO: return this.setDspTremolo(); 
+                case FMOD.DSP_TYPE.ECHO: return this.setDspEcho(); 
+                case FMOD.DSP_TYPE.CHORUS: return this.setDspChorus();
+                default: return false;
+            }
+        }
+
+        #endregion
+
 
     }
 }

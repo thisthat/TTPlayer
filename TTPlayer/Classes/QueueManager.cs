@@ -47,7 +47,7 @@ namespace TTPlayer.Classes
                 else if (validExt(path))
                 {
                     u = Utility.getTag(path);
-                    this.Add(new Song(path, u.Title, u));
+                    this.Add(new Song(path, Utility.getTagTitle(path), u));
                 }
             }
             this.minID = this.First().ID;
@@ -68,7 +68,7 @@ namespace TTPlayer.Classes
                 else if (validExt(path))
                 {
                     u = Utility.getTag(path);
-                    this.Add(new Song(path, u.Title, u));
+                    this.Add(new Song(path, Utility.getTagTitle(path) , u));
                 }
             }
             this.minID = (this.Count != 0) ? this.First().ID : 0;

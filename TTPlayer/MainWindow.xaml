@@ -785,9 +785,34 @@
 				<ScrollBar x:Name="PART_HorizontalScrollBar" AutomationProperties.AutomationId="HorizontalScrollBar" Cursor="Arrow" Grid.Column="0" Maximum="{TemplateBinding ScrollableWidth}" Minimum="0" Orientation="Horizontal" Grid.Row="1" Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}" Value="{Binding HorizontalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" ViewportSize="{TemplateBinding ViewportWidth}"/>
 			</Grid>
 		</ControlTemplate>
+		<Style x:Key="RectangleStyle1" TargetType="{x:Type Rectangle}">
+			<Style.Resources>
+				<Storyboard x:Key="OnMouseEnter1">
+								<ColorAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="{x:Null}" Storyboard.TargetProperty="(Shape.Stroke).(SolidColorBrush.Color)">
+									<SplineColorKeyFrame KeyTime="00:00:00.5000000" Value="sc#0.843137264, 1, 1, 1"/>
+									<SplineColorKeyFrame KeyTime="00:00:01" Value="#FF488DDE"/>
+								</ColorAnimationUsingKeyFrames>
+							</Storyboard>
+							<Storyboard x:Key="OnMouseLeave1">
+								<ColorAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="{x:Null}" Storyboard.TargetProperty="(Shape.Stroke).(SolidColorBrush.Color)">
+									<SplineColorKeyFrame KeyTime="00:00:00" Value="#FF488DDE"/>
+									<SplineColorKeyFrame KeyTime="00:00:00.5000000" Value="sc#0.843137264, 1, 1, 1"/>
+									<SplineColorKeyFrame KeyTime="00:00:01" Value="#AFDEAC56"/>
+								</ColorAnimationUsingKeyFrames>
+							</Storyboard>
+			</Style.Resources>
+			<Style.Triggers>
+				<EventTrigger RoutedEvent="Mouse.MouseEnter">
+					<BeginStoryboard x:Name="OnMouseEnter1_BeginStoryboard1" Storyboard="{StaticResource OnMouseEnter1}"/>
+				</EventTrigger>
+				<EventTrigger RoutedEvent="Mouse.MouseLeave">
+					<BeginStoryboard x:Name="OnMouseLeave1_BeginStoryboard" Storyboard="{StaticResource OnMouseLeave1}"/>
+				</EventTrigger>
+			</Style.Triggers>
+		</Style>
 	</Window.Resources>
 	<Window.Background>
-		<ImageBrush ImageSource="pack://siteoforigin:,,,/img/Sfondo.png"/>
+		<ImageBrush ImageSource="Sfondo.png"/>
 	</Window.Background>
 	<Grid x:Name="LayoutRoot" VerticalAlignment="Top" Height="602" Margin="0,-1,0,0">
 		<TextBlock x:Name="TT_Team___Work__" FontFamily="Myriad Pro" FontSize="18" Foreground="#FF000000" IsHyphenationEnabled="True" LineHeight="18" LineStackingStrategy="BlockLineHeight" Text="TT Team @ Work !" TextAlignment="Left" TextWrapping="Wrap" RenderTransformOrigin="0.5,0.5" Margin="656.293,55.333,3.667,526.607">
@@ -800,7 +825,7 @@
 				</TransformGroup>
 			</TextBlock.RenderTransform>
 		</TextBlock>
-        <Label x:Name="Lbl_time" Content="" Height="24" ScrollViewer.VerticalScrollBarVisibility="Disabled" BorderThickness="1" BorderBrush="#AFDEAC56" Background="{x:Null}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Bottom" Margin="309,0,309,15" Style="{DynamicResource LabelStyle1}" />
+        <Label x:Name="Lbl_time" Content="" Height="24" ScrollViewer.VerticalScrollBarVisibility="Disabled" BorderThickness="1"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Bottom" Margin="309,0,309,15" Style="{DynamicResource LabelStyle1}" BorderBrush="#AFDEAC56" Background="{x:Null}" />
 		<Slider x:Name="Slider_Search" Height="27" Style="{DynamicResource TTSlider}" Margin="22,0,0,45.667" VerticalAlignment="Bottom" IsMoveToPointEnabled="True" HorizontalAlignment="Left" Width="762.689" ValueChanged="Slider_Search_ValueChanged" />
 		<Slider x:Name="Slider_vol" Height="25" Style="{DynamicResource TTSlider}" ScrollViewer.VerticalScrollBarVisibility="Disabled" Margin="608,0,20.644,15" VerticalAlignment="Bottom" IsMoveToPointEnabled="True" ValueChanged="Slider_vol_ValueChanged"/>
         <ListView x:Name="Lst_song" ItemsSource="{Binding _QueueManager}" HorizontalAlignment="Left" Margin="0,29,0,87" Style="{DynamicResource ListBoxStyle1}" Width="230" Background="{x:Null}" BorderBrush="#AFDEAC56" BorderThickness="0,1,1,1" AllowDrop="True" MouseDoubleClick="Lst_song_MouseDoubleClick" Drop="Lst_song_Drop">
@@ -829,6 +854,8 @@
 				</LinearGradientBrush>
 			</Button.Background>
 		</Button>
+        <Label x:Name="Lbl_info" Height="24" Content="" Style="{DynamicResource LabelStyle1}" BorderBrush="#AFDEAC56" Background="{x:Null}"  ScrollViewer.VerticalScrollBarVisibility="Disabled" BorderThickness="1" 
+        	 HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Bottom" Margin="22,0,575.333,15" Padding="5,3,5,5"  />
 		<Button x:Name="btn_exit" HorizontalAlignment="Left" Margin="768,10,0,0" VerticalAlignment="Top" Width="21" Height="21" Content="X" FontStretch="Condensed" Click="btn_exit_Click" >
 			<Button.Background>
 				<LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
@@ -840,7 +867,6 @@
 			</Button.Background>
 		</Button>
         <Label HorizontalAlignment="Right" Margin="0,0,118,77.667" x:Name="lbl_pp" Width="40" Height="25" VerticalAlignment="Bottom" FontSize="10" Content="Play"/>
-        <Label x:Name="Lbl_info" Height="24" Content="" ScrollViewer.VerticalScrollBarVisibility="Disabled" BorderThickness="1" BorderBrush="#AFDEAC56" Background="{x:Null}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Bottom" Margin="22,0,596,15" Style="{DynamicResource LabelStyle1}" />
         <Button x:Name="btnPrev" Height="53" Margin="592.666,435,166.334,0" VerticalAlignment="Top" Background="{x:Null}" Click="btnPrev_Click">
         	<Image x:Name="t_prew" Width="35" Source="img/prew.png" HorizontalAlignment="Left" Height="47" />
         </Button>
@@ -850,19 +876,17 @@
         <Button x:Name="btnPlayPause" Height="53" Margin="665,435,94,0" VerticalAlignment="Top" Background="{x:Null}" Click="btnPlayPause_Click">
         	<Image HorizontalAlignment="Left" x:Name="play" Source="img/pausa.png" Width="35" Height="47" />
         </Button>
-        <Grid x:Name="Effetti" HorizontalAlignment="Right" Margin="0,202.333,19.334,280.507" Width="193.333">
-        	<GroupBox Margin="4,0,0,0" Header="Effetti" VerticalAlignment="Top" Height="119.16" BorderBrush="#FF7BC4F0" Foreground="#FF0B6AB7" HorizontalAlignment="Left" Width="189.333">
+        <Grid x:Name="Effetti" HorizontalAlignment="Right" Margin="0,249.333,18.334,233.507" Width="193.333">
+        	<GroupBox Margin="4,0,0,0" Header="Effetti" VerticalAlignment="Top" Height="97.333" BorderBrush="#FF7BC4F0" Foreground="#FF0B6AB7" HorizontalAlignment="Left" Width="189.333">
         		<Grid HorizontalAlignment="Left" Height="115.915" Margin="0,-10.953,-2,-12.96" VerticalAlignment="Top" Width="243">
-        			<CheckBox Margin="1.001,13.955,0,0" Width="79" x:Name="CkLowPass" Content="LowPass" HorizontalAlignment="Left" VerticalAlignment="Top" Height="19" FontWeight="Bold" />
-        			<CheckBox Margin="1.001,70.955,0,0" Width="79" x:Name="CkTremolo" Content="Tremolo" HorizontalAlignment="Left" VerticalAlignment="Top" Height="19" FontWeight="Bold" />
-        			<CheckBox Margin="1.001,32.955,0,0" Width="79" x:Name="CkRiverbero" Content="Riverbero" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold" Height="19" />
-        			<CheckBox Margin="1.001,51.955,0,0" Width="79" x:Name="CkDelay" Content="Delay" HorizontalAlignment="Left" VerticalAlignment="Top" Height="19" FontWeight="Bold" />
-        			<CheckBox Margin="1.001,89.955,0,0" Width="79" x:Name="CkCoro" Content="Chorus" HorizontalAlignment="Left" VerticalAlignment="Top" Height="19" FontWeight="Bold" />
-        			<CheckBox Margin="0,13.955,66.701,0" Width="82" x:Name="CkHighPass" Content="HighPass" HorizontalAlignment="Right" VerticalAlignment="Top" Height="19" FontWeight="Bold" />
-        			<CheckBox Margin="0,51.955,66.701,0" Width="82" x:Name="CkFlange" Content="Flange" HorizontalAlignment="Right" VerticalAlignment="Top" Height="19" FontWeight="Bold" />
-        			<CheckBox Margin="0,32.955,66.701,0" Width="82" x:Name="CkDisorsione" Content="Distorsione" HorizontalAlignment="Right" VerticalAlignment="Top" Height="19" FontWeight="Bold" />
-        			<CheckBox Margin="0,70.955,66.701,0" Width="82" x:Name="CkEcho" Content="Echo" HorizontalAlignment="Right" VerticalAlignment="Top" Height="19" FontWeight="Bold" />
-        			<CheckBox Margin="0,89.955,66.701,0" Width="82" x:Name="CkSoftware" Content="Software" HorizontalAlignment="Right" VerticalAlignment="Top" Height="19" FontWeight="Bold" />
+        			<CheckBox Margin="1.001,13.955,0,0" Width="79" x:Name="CkLowPass" Content="LowPass" HorizontalAlignment="Left" VerticalAlignment="Top" Height="19" FontWeight="Bold" Click="CkLowPass_Click" />
+        			<CheckBox Margin="1.001,70.955,0,0" Width="79" x:Name="CkTremolo" Content="Tremolo" HorizontalAlignment="Left" VerticalAlignment="Top" Height="19" FontWeight="Bold" Click="CkTremolo_Click" />
+        			<CheckBox Margin="1.001,51.955,0,0" Width="79" x:Name="CkDelay" Content="Delay" HorizontalAlignment="Left" VerticalAlignment="Top" Height="19" FontWeight="Bold" Click="CkDelay_Click" />
+        			<CheckBox Margin="1.001,32.955,0,0" Width="79" x:Name="CkCoro" Content="Chorus" HorizontalAlignment="Left" VerticalAlignment="Top" Height="19" FontWeight="Bold" Click="CkCoro_Click" />
+        			<CheckBox Margin="0,13.955,66.701,0" Width="82" x:Name="CkHighPass" Content="HighPass" HorizontalAlignment="Right" VerticalAlignment="Top" Height="19" FontWeight="Bold" Click="CkHighPass_Click" />
+        			<CheckBox Margin="0,51.955,66.701,0" Width="82" x:Name="CkFlange" Content="Flange" HorizontalAlignment="Right" VerticalAlignment="Top" Height="19" FontWeight="Bold" Click="CkFlange_Click" />
+        			<CheckBox Margin="0,32.955,66.701,0" Width="82" x:Name="CkDisorsione" Content="Distorsione" HorizontalAlignment="Right" VerticalAlignment="Top" Height="19" FontWeight="Bold" Click="CkDisorsione_Click" />
+        			<CheckBox Margin="0,70.955,66.701,0" Width="82" x:Name="CkEcho" Content="Echo" HorizontalAlignment="Right" VerticalAlignment="Top" Height="19" FontWeight="Bold" Click="CkEcho_Click" />
         		</Grid>
         	</GroupBox>
         	<Grid x:Name="___Grid_Hidden_" HorizontalAlignment="Left" Height="13.333" Margin="227.333,84,0,0" VerticalAlignment="Top" Width="8" Opacity="0">
@@ -901,6 +925,9 @@
         			</Label.Foreground>
         		</Label>
         	</Grid>
+        </Grid>
+        <Grid x:Name="InfoGrid" HorizontalAlignment="Left" Height="0" Margin="22,563,0,0" VerticalAlignment="Top" Width="0">
+        	<Rectangle VerticalAlignment="Bottom" Height="24"  Stroke="#AFDEAC56" Width="187.333" Style="{DynamicResource RectangleStyle1}"/>
         </Grid>
     </Grid>
 </Window>
