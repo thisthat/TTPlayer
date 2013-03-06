@@ -17,7 +17,7 @@ namespace TTPlayer.Classes
         //UI Element
         private Slider s_song, s_vol;
         private Label info, time;
-
+        private Image play_pausa;
         //FMOD 
         private FMOD.System system = null;
         private FMOD.Sound sound = null;
@@ -58,13 +58,14 @@ namespace TTPlayer.Classes
 
 
         //Costruttore, necessita di tutti gli UI Element a cui fare l'update
-        public FMODSongManager(Slider l, Slider v, Dispatcher d, Label i, Label t)
+        public FMODSongManager(Slider l, Slider v, Dispatcher d, Label i, Label t, Image im)
         {
             this.s_song = l;
             this.s_vol = v;
             this._dispatcher = d;
             this.info = i;
             this.time = t;
+            this.play_pausa = im;
 
             /*
                 Create a System object and initialize.
@@ -120,7 +121,7 @@ namespace TTPlayer.Classes
 
             result = system.playSound(FMOD.CHANNELINDEX.FREE, sound, false, ref channel);
             ERRCHECK(result);
-
+            this.changeButton();
         }
 
         public void Play(Song s)
@@ -151,6 +152,8 @@ namespace TTPlayer.Classes
 
             result = system.playSound(FMOD.CHANNELINDEX.FREE, sound, false, ref channel);
             ERRCHECK(result);
+            //this.playing = true;
+
             //Ripristino il volume dell'utente
             this.setVolume(this.volume);
             //Ripristino i DSP
@@ -164,6 +167,37 @@ namespace TTPlayer.Classes
                 result = channel.addDSP(highPass, ref dspCon);
                 ERRCHECK(result);
             }
+            if (this.isChorus)
+            {
+                result = channel.addDSP(chorus, ref dspCon);
+                ERRCHECK(result);
+            }
+            if (this.isDelay)
+            {
+                result = channel.addDSP(delay, ref dspCon);
+                ERRCHECK(result);
+            }
+            if (this.isDistorsione)
+            {
+                result = channel.addDSP(distorsione, ref dspCon);
+                ERRCHECK(result);
+            }
+            if (this.isEcho)
+            {
+                result = channel.addDSP(echo, ref dspCon);
+                ERRCHECK(result);
+            }
+            if (this.isFlange)
+            {
+                result = channel.addDSP(flange, ref dspCon);
+                ERRCHECK(result);
+            }
+            if (this.isTremolo)
+            {
+                result = channel.addDSP(tremolo, ref dspCon);
+                ERRCHECK(result);
+            }
+            this.changeButton();
         }
 
         //THREAD che se c'è una canzone in exe calcola i tempi
@@ -334,6 +368,19 @@ namespace TTPlayer.Classes
 
             //Chiudo i miei thread
             _isThRunning = false;
+        }
+
+        private void changeButton()
+        {
+            Image myImage3 = new Image();
+            System.Windows.Media.Imaging.BitmapImage bi3 = new System.Windows.Media.Imaging.BitmapImage();
+            bi3.BeginInit();
+
+            //Play
+            bi3.UriSource = new Uri("img/pausa.png", UriKind.Relative);
+            bi3.EndInit();
+            this.play_pausa.Source = bi3;
+            this._isPaused = false;
         }
 
         #region "DSP"

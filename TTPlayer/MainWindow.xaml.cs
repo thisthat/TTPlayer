@@ -44,7 +44,7 @@ namespace TTPlayer
         private void SetUpGUI()
         {
 
-            FManager = new FMODSongManager(Slider_Search, Slider_vol, this.Dispatcher, this.Lbl_info, this.Lbl_time);
+            FManager = new FMODSongManager(Slider_Search, Slider_vol, this.Dispatcher, this.Lbl_info, this.Lbl_time, this.play);
             _QueueManager = new QueueManager();
 
             FManager.setQueue(_QueueManager);
@@ -76,9 +76,7 @@ namespace TTPlayer
             FManager.Close();
         }
 
-
-
-        private void Window_MouseDown_1(object sender, MouseButtonEventArgs e)
+        private void test_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             DragMove();
         }
@@ -133,12 +131,10 @@ namespace TTPlayer
         {
             uint val = (uint)Slider_Search.Value;
             float t = (float)(val - oldValue) / (float)Slider_Search.Maximum;
-            if (t > 0.001)
+            if (t > 0.01)
                 FManager.setPosition(val);
             oldValue = val;
         }
-
-      
 
         private void Lst_song_Drop(object sender, DragEventArgs e)
         {
@@ -151,6 +147,7 @@ namespace TTPlayer
             }
         }
 
+        #region "DSP"
         private void CkLowPass_Click(object sender, RoutedEventArgs e)
         {
             CheckBox c = (CheckBox)sender;
@@ -198,9 +195,6 @@ namespace TTPlayer
             CheckBox c = (CheckBox)sender;
             c.IsChecked = FManager.setDsp(DSP_TYPE.CHORUS);
         }
-
-        
-
-
+        #endregion
     }
 }

@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
 		xmlns:Themes="assembly=PresentationFramework.Aero" mc:Ignorable="d" x:Class="TTPlayer.MainWindow"
         Name="test"
-        Title="MainWindow" Height="590.334" Width="805.333" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" WindowStyle="None" MinWidth="800" Foreground="{x:Null}" Closing="Window_Closing_1" MouseDown="Window_MouseDown_1">
+        Title="MainWindow" Height="590.334" Width="805.333" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" WindowStyle="None" MinWidth="800" Foreground="{x:Null}" Closing="Window_Closing_1" MouseLeftButtonDown="test_MouseLeftButtonDown">
 	<Window.Resources>
 		<SolidColorBrush x:Key="ListBorder" Color="#828790"/>
 
