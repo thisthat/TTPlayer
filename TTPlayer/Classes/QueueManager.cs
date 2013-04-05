@@ -130,6 +130,7 @@ namespace TTPlayer.Classes
         {
             Song elm;
             curElm--;
+            
             if (curElm < this.minID)
             {
                 curElm = this.maxID;

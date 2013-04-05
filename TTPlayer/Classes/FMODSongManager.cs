@@ -306,14 +306,20 @@ namespace TTPlayer.Classes
 
         public void setNext()
         {
-            Song sn = lstCanzoni.Next();
-            this.Play(sn);
+            if (lstCanzoni.Count > 0)
+            {
+                Song sn = lstCanzoni.Next();
+                this.Play(sn);
+            }
         }
 
         public void setPrev()
         {
-            Song sn = lstCanzoni.Prev();
-            this.Play(sn);
+            if (lstCanzoni.Count > 0)
+            {
+                Song sn = lstCanzoni.Prev();
+                this.Play(sn);
+            }
         }
 
         //Pausa e Resume
@@ -328,6 +334,29 @@ namespace TTPlayer.Classes
             else
             {
                 _isPaused = false;
+            }
+            return _isPaused;
+        }
+
+        //Pausa e Resume
+        public bool PauseFix()
+        {
+            _isPaused = true;
+            if (channel != null)
+            {
+                result = channel.setPaused(_isPaused);
+                ERRCHECK(result);
+            }
+            return _isPaused;
+        }
+        //Pausa e Resume
+        public bool PlayFix()
+        {
+            _isPaused = false;
+            if (channel != null)
+            {
+                result = channel.setPaused(_isPaused);
+                ERRCHECK(result);
             }
             return _isPaused;
         }
@@ -381,6 +410,20 @@ namespace TTPlayer.Classes
             bi3.EndInit();
             this.play_pausa.Source = bi3;
             this._isPaused = false;
+        }
+
+        //CreateSoundEffect
+        public void createSoundEffect(string path_sound)
+        {
+            FMOD.Sound sound = null;
+            FMOD.Channel channel = null;
+            result = system.createSound(path_sound, FMOD.MODE.CREATESTREAM, ref sound);
+            ERRCHECK(result);
+            result = sound.setMode(FMOD.MODE.LOOP_OFF);
+            ERRCHECK(result);
+
+            result = system.playSound(FMOD.CHANNELINDEX.FREE, sound, false, ref channel);
+            ERRCHECK(result);
         }
 
         #region "DSP"
@@ -558,12 +601,12 @@ namespace TTPlayer.Classes
             switch (type)
             {
                 case FMOD.DSP_TYPE.LOWPASS: return this.setDspLowPass();
-                case FMOD.DSP_TYPE.HIGHPASS: return this.setDspHighPass(); 
+                case FMOD.DSP_TYPE.HIGHPASS: return this.setDspHighPass();
                 case FMOD.DSP_TYPE.DISTORTION: return this.setDspDistorsione();
-                case FMOD.DSP_TYPE.DELAY: return this.setDspDelay(); 
+                case FMOD.DSP_TYPE.DELAY: return this.setDspDelay();
                 case FMOD.DSP_TYPE.FLANGE: return this.setDspFlange();
-                case FMOD.DSP_TYPE.TREMOLO: return this.setDspTremolo(); 
-                case FMOD.DSP_TYPE.ECHO: return this.setDspEcho(); 
+                case FMOD.DSP_TYPE.TREMOLO: return this.setDspTremolo();
+                case FMOD.DSP_TYPE.ECHO: return this.setDspEcho();
                 case FMOD.DSP_TYPE.CHORUS: return this.setDspChorus();
                 default: return false;
             }

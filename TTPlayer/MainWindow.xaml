@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
 		xmlns:Themes="assembly=PresentationFramework.Aero" mc:Ignorable="d" x:Class="TTPlayer.MainWindow"
         Name="test"
-        Title="MainWindow" Height="590.334" Width="805.333" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" WindowStyle="None" MinWidth="800" Foreground="{x:Null}" Closing="Window_Closing_1" MouseLeftButtonDown="test_MouseLeftButtonDown">
+        Title="MainWindow" Height="590.334" Width="805.333" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" WindowStyle="None" MinWidth="800" Foreground="{x:Null}" Closing="Window_Closing_1" MouseLeftButtonDown="test_MouseLeftButtonDown" KeyDown="KeyPress">
 	<Window.Resources>
 		<SolidColorBrush x:Key="ListBorder" Color="#828790"/>
 
@@ -814,7 +814,7 @@
 	<Window.Background>
 		<ImageBrush ImageSource="Sfondo.png"/>
 	</Window.Background>
-	<Grid x:Name="LayoutRoot" VerticalAlignment="Top" Height="602" Margin="0,-1,0,0">
+	<Grid x:Name="LayoutRoot" VerticalAlignment="Top" Height="602" Margin="0,-1,0,0" KeyDown="KeyPress">
 		<TextBlock x:Name="TT_Team___Work__" FontFamily="Myriad Pro" FontSize="18" Foreground="#FF000000" IsHyphenationEnabled="True" LineHeight="18" LineStackingStrategy="BlockLineHeight" Text="TT Team @ Work !" TextAlignment="Left" TextWrapping="Wrap" RenderTransformOrigin="0.5,0.5" Margin="656.293,55.333,3.667,526.607">
 			<TextBlock.RenderTransform>
 				<TransformGroup>
@@ -828,7 +828,7 @@
         <Label x:Name="Lbl_time" Content="" Height="24" ScrollViewer.VerticalScrollBarVisibility="Disabled" BorderThickness="1"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Bottom" Margin="309,0,309,15" Style="{DynamicResource LabelStyle1}" BorderBrush="#AFDEAC56" Background="{x:Null}" />
 		<Slider x:Name="Slider_Search" Height="27" Style="{DynamicResource TTSlider}" Margin="22,0,0,45.667" VerticalAlignment="Bottom" IsMoveToPointEnabled="True" HorizontalAlignment="Left" Width="762.689" ValueChanged="Slider_Search_ValueChanged" />
 		<Slider x:Name="Slider_vol" Height="25" Style="{DynamicResource TTSlider}" ScrollViewer.VerticalScrollBarVisibility="Disabled" Margin="608,0,20.644,15" VerticalAlignment="Bottom" IsMoveToPointEnabled="True" ValueChanged="Slider_vol_ValueChanged"/>
-        <ListView x:Name="Lst_song" ItemsSource="{Binding _QueueManager}" HorizontalAlignment="Left" Margin="0,29,0,87" Style="{DynamicResource ListBoxStyle1}" Width="230" Background="{x:Null}" BorderBrush="#AFDEAC56" BorderThickness="0,1,1,1" AllowDrop="True" MouseDoubleClick="Lst_song_MouseDoubleClick" Drop="Lst_song_Drop">
+        <ListView x:Name="Lst_song" ItemsSource="{Binding _QueueManager}" HorizontalAlignment="Left" Margin="0,29,0,87" Style="{DynamicResource ListBoxStyle1}" Width="230" Background="{x:Null}" BorderBrush="#AFDEAC56" BorderThickness="0,1,1,1" AllowDrop="True" MouseDoubleClick="Lst_song_MouseDoubleClick" Drop="Lst_song_Drop" KeyDown="KeyPress" PreviewKeyDown="KeyPress">
             <ListView.View>
                 <GridView>
                     <GridViewColumn>

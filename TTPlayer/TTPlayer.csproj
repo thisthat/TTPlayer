@@ -34,6 +34,12 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <NoWin32Manifest>true</NoWin32Manifest>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>img\icon_128.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="FMODWrapper, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -41,6 +47,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Speech" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -73,6 +80,7 @@
     <Compile Include="Classes\FMODSongManager.cs" />
     <Compile Include="Classes\QueueManager.cs" />
     <Compile Include="Classes\Song.cs" />
+    <Compile Include="Classes\TTSpeech.cs" />
     <Compile Include="Classes\Utility.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -117,6 +125,12 @@
     <Resource Include="Sfondo.png" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Music\Purr.mp3">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Music\volume.mp3">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Resource Include="img\play.png" />
     <Content Include="Lib\UltraID3Lib.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

@@ -26,6 +26,7 @@ namespace TTPlayer
 
         private FMODSongManager FManager;
         private QueueManager _QueueManager;
+        private TTSpeech _TTSpeech;
         private uint oldValue = 0;
 
         public MainWindow()
@@ -46,8 +47,10 @@ namespace TTPlayer
 
             FManager = new FMODSongManager(Slider_Search, Slider_vol, this.Dispatcher, this.Lbl_info, this.Lbl_time, this.play);
             _QueueManager = new QueueManager();
+            
 
             FManager.setQueue(_QueueManager);
+            _TTSpeech = new TTSpeech(FManager,this.play,this.Slider_vol);
 
             CkCoro.Foreground = Brushes.PaleVioletRed;
             CkDelay.Foreground = Brushes.OrangeRed;
@@ -129,6 +132,7 @@ namespace TTPlayer
 
         private void Slider_Search_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
+            
             uint val = (uint)Slider_Search.Value;
             float t = (float)(val - oldValue) / (float)Slider_Search.Maximum;
             if (t > 0.01)
@@ -196,5 +200,14 @@ namespace TTPlayer
             c.IsChecked = FManager.setDsp(DSP_TYPE.CHORUS);
         }
         #endregion
+
+        
+        private void KeyPress(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Space)
+            {
+                _TTSpeech.setActive();
+            }
+        }
     }
 }
