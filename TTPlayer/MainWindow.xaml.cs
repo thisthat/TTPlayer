@@ -27,6 +27,7 @@ namespace TTPlayer
         private FMODSongManager FManager;
         private QueueManager _QueueManager;
         private TTSpeech _TTSpeech;
+        private WebInterface ww;
         private uint oldValue = 0;
 
         public MainWindow()
@@ -34,7 +35,7 @@ namespace TTPlayer
             InitializeComponent();
 
             SetUpGUI();
-
+            ww = new WebInterface();
 
             //Test ListView 
             Lst_song.ItemsSource = _QueueManager;
@@ -77,6 +78,7 @@ namespace TTPlayer
         private void Window_Closing_1(object sender, System.ComponentModel.CancelEventArgs e)
         {
             FManager.Close();
+            ww.Dispose();
         }
 
         private void test_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
