@@ -45,6 +45,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Lib\FMODWrapper.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationFramework.Aero" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Speech" />
@@ -120,12 +121,14 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="img\Image.png" />
+    <Resource Include="img\media-shuffle.png" />
     <Resource Include="img\next.png" />
     <Resource Include="img\pausa.png" />
     <Resource Include="img\prew.png" />
     <Resource Include="Sfondo.png" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="img\Loop.png" />
     <Content Include="Music\Purr.mp3">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

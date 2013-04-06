@@ -7,6 +7,8 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Threading;
 
 namespace TTPlayer.Classes
 {
@@ -15,9 +17,25 @@ namespace TTPlayer.Classes
         int port = 1414;
         Socket listener;
         bool fine = false;
-        public WebInterface()
+
+        private const string vol_up = "vol:up";
+        private const string vol_down = "vol:down";
+        private const string next = "canzone:prev";
+        private const string prev = "canzone:next";
+        private const string start = "play:true";
+        private const string stop = "play:false";
+        private const string rnd = "random:true";
+        private const string nrm = "random:false";
+
+        private FMODSongManager manager;
+        private Slider vol;
+        private Dispatcher _dispatcher;
+
+        public WebInterface(FMODSongManager m, Slider s)
         {
-            
+            manager = m;
+            vol = s;
+            _dispatcher = m.getDispatcher();
             Thread t = new Thread(this.receve);
             t.Start();
         }
@@ -41,8 +59,8 @@ namespace TTPlayer.Classes
             IPEndPoint localEndPoint = new IPEndPoint(ipAddress, port);
 
             // Create a TCP/IP socket.
-           listener = new Socket(AddressFamily.InterNetwork,
-                SocketType.Stream, ProtocolType.Tcp);
+            listener = new Socket(AddressFamily.InterNetwork,
+                 SocketType.Stream, ProtocolType.Tcp);
 
             // Bind the socket to the local endpoint and 
             // listen for incoming connections.
@@ -53,7 +71,7 @@ namespace TTPlayer.Classes
             while (!fine)
             {
                 try
-                {          
+                {
                     // Start listening for connections.
                     Socket handler = listener.Accept();
                     data = "";
@@ -67,8 +85,20 @@ namespace TTPlayer.Classes
                     }
                     while (bytesRec > 0);
                     // Show the data on the console.
-                    Console.WriteLine("Text received : {0}", data);
-                    
+
+                    switch (data)
+                    {
+                        case vol_up: _dispatcher.Invoke(DispatcherPriority.Normal, new Action(this.setVolumeUp)); break;
+                        case vol_down: _dispatcher.Invoke(DispatcherPriority.Normal, new Action(this.setVolumeDown)); break;
+                        case next: _dispatcher.Invoke(DispatcherPriority.Normal, new Action(manager.setNext)); break;
+                        case prev: _dispatcher.Invoke(DispatcherPriority.Normal, new Action(manager.setPrev)); break;
+                        case start: _dispatcher.Invoke(DispatcherPriority.Normal, new Action(this.setPlay)); break;
+                        case stop: _dispatcher.Invoke(DispatcherPriority.Normal, new Action(this.setPause)); break;
+                        case rnd:
+                        case nrm: break;
+                        default: break;
+                    }
+
                     handler.Shutdown(SocketShutdown.Both);
                     handler.Close();
                 }
@@ -78,5 +108,26 @@ namespace TTPlayer.Classes
                 }
             }
         }
+
+        private void setPause()
+        {
+            manager.setPlayPause(true);
+        }
+        private void setPlay()
+        {
+            manager.setPlayPause(false);
+        }
+        private void setVolumeUp()
+        {
+            float v = (vol.Value < 0.9) ? (float)vol.Value : 0.9f; v += 0.1f; vol.Value = v;
+            manager.setVolume(v); 
+            manager.createSoundEffect(@"./Music/volume.mp3");
+        }
+        private void setVolumeDown()
+        {
+            float v = (vol.Value > 0.1) ? (float)vol.Value : 0.1f; v -= 0.1f; vol.Value = v;
+            manager.setVolume(v); manager.createSoundEffect(@"./Music/volume.mp3");
+        }
+
     }
 }

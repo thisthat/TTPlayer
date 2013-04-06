@@ -28,7 +28,7 @@ namespace TTPlayer.Classes
         private const string up = "up";
         private const string down = "down";
 
-        private bool state = true;
+        private bool state = false;
 
         public TTSpeech(FMODSongManager q, Image p,Slider v)
         {
@@ -59,7 +59,7 @@ namespace TTPlayer.Classes
             sre.SpeechRecognized += new EventHandler<SpeechRecognizedEventArgs>(SpeechRecognized);
 
             /// Start asynchronous, continuous speech recognition.
-            sre.RecognizeAsync(RecognizeMode.Multiple);
+            //sre.RecognizeAsync(RecognizeMode.Multiple);
         }
 
         public void setActive()
@@ -77,24 +77,7 @@ namespace TTPlayer.Classes
             Manager.createSoundEffect(@"./Music/Purr.mp3");
         }
 
-        private void setPlayPause()
-        {
-            Image myImage3 = new Image();
-            BitmapImage bi3 = new BitmapImage();
-            bi3.BeginInit();
-            if (Manager.Pause())
-            {
-                //Siamo in pausa
-                bi3.UriSource = new Uri("img/play.png", UriKind.Relative);
-            }
-            else
-            {
-                //Play
-                bi3.UriSource = new Uri("img/pausa.png", UriKind.Relative);
-            }
-            bi3.EndInit();
-            _play.Source = bi3;
-        }
+        
 
         void SpeechRecognized(object sender, SpeechRecognizedEventArgs e)
         {
@@ -110,7 +93,7 @@ namespace TTPlayer.Classes
                     case prossima: Manager.setNext(); break;
                     case play:
                     case pausa:
-                    case ferma: setPlayPause(); break;
+                    case ferma: Manager.setPlayPause(); break;
                     case up: v = (vol.Value < 0.9) ? (float)vol.Value : 0.9f; v += 0.1f; vol.Value = v; 
                             Manager.setVolume(v); Manager.createSoundEffect(@"./Music/volume.mp3"); break;
                     case down: v = (vol.Value > 0.1) ? (float)vol.Value : 0.1f; v -= 0.1f; vol.Value = v; 

@@ -9,6 +9,7 @@ using System.Windows.Threading;
 
 
 using System.ComponentModel;
+using System.Windows.Media.Imaging;
 
 namespace TTPlayer.Classes
 {
@@ -97,6 +98,10 @@ namespace TTPlayer.Classes
             this.lstCanzoni = q;
         }
 
+        public Dispatcher getDispatcher()
+        {
+            return _dispatcher;
+        }
 
         //Check error per FMOD
         private void ERRCHECK(FMOD.RESULT result)
@@ -410,6 +415,55 @@ namespace TTPlayer.Classes
             bi3.EndInit();
             this.play_pausa.Source = bi3;
             this._isPaused = false;
+        }
+
+        public void setPlayPause()
+        {
+            Image myImage3 = new Image();
+            BitmapImage bi3 = new BitmapImage();
+            bi3.BeginInit();
+            if (this.Pause())
+            {
+                //Siamo in pausa
+                bi3.UriSource = new Uri("img/play.png", UriKind.Relative);
+            }
+            else
+            {
+                //Play
+                bi3.UriSource = new Uri("img/pausa.png", UriKind.Relative);
+            }
+            bi3.EndInit();
+            play_pausa.Source = bi3;
+        }
+        public void setPlayPause(bool f)
+        {
+
+            if (playing)
+            {
+                _isPaused = f;
+                result = channel.setPaused(_isPaused);
+                ERRCHECK(result);
+            }
+            else
+            {
+                _isPaused = false;
+            }
+
+            Image myImage3 = new Image();
+            BitmapImage bi3 = new BitmapImage();
+            bi3.BeginInit();
+            if (f)
+            {
+                //Siamo in pausa
+                bi3.UriSource = new Uri("img/play.png", UriKind.Relative);
+            }
+            else
+            {
+                //Play
+                bi3.UriSource = new Uri("img/pausa.png", UriKind.Relative);
+            }
+            bi3.EndInit();
+            play_pausa.Source = bi3;
         }
 
         //CreateSoundEffect

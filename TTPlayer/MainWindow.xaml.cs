@@ -35,7 +35,7 @@ namespace TTPlayer
             InitializeComponent();
 
             SetUpGUI();
-            ww = new WebInterface();
+            
 
             //Test ListView 
             Lst_song.ItemsSource = _QueueManager;
@@ -52,6 +52,7 @@ namespace TTPlayer
 
             FManager.setQueue(_QueueManager);
             _TTSpeech = new TTSpeech(FManager,this.play,this.Slider_vol);
+            ww = new WebInterface(FManager, this.Slider_vol);
 
             CkCoro.Foreground = Brushes.PaleVioletRed;
             CkDelay.Foreground = Brushes.OrangeRed;
