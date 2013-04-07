@@ -28,9 +28,10 @@ namespace TTPlayer.Classes
 
         private uint ms = 0;
         private uint lenms = 0;
-        private float volume = 0.2f;
+        private float volume = 1f;
         private bool playing = false;
         private bool _isPaused = false;
+        private bool random = false;
 
         //DSP
         private FMOD.DSP lowPass = null; private bool isLowPass = false;
@@ -131,12 +132,13 @@ namespace TTPlayer.Classes
 
         public void Play(Song s)
         {
+            Console.WriteLine("id: {0}", s.ID);
             if (current != null)
                 current.isPlay = false;
 
             current = s;
             s.isPlay = true;
-            this.lstCanzoni.setPlay(s);
+            //this.lstCanzoni.setPlay(s);
 
             //CHIUDO LA VECCHIA
             if (channel != null)
@@ -382,6 +384,18 @@ namespace TTPlayer.Classes
                 channel.setVolume(v);
                 this.volume = v;
             }
+        }
+        public bool setRandom()
+        {
+            random = !random;
+            lstCanzoni.setRandom(random);
+            return random;
+        }
+        public bool setRandom(bool v)
+        {
+            random = v;
+            lstCanzoni.setRandom(random);
+            return random;
         }
 
         public void Close()

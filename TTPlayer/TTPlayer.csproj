@@ -129,6 +129,7 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="img\Loop.png" />
+    <Resource Include="img\media-normal.png" />
     <Content Include="Music\Purr.mp3">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

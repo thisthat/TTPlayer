@@ -64,7 +64,6 @@ namespace TTPlayer.Classes
 
         public void setActive()
         {
-            Console.WriteLine(state);
             if (state)
             {
                 sre.RecognizeAsyncCancel();
@@ -74,6 +73,25 @@ namespace TTPlayer.Classes
                 sre.RecognizeAsync(RecognizeMode.Multiple);
             }
             state = !state;
+            Manager.createSoundEffect(@"./Music/Purr.mp3");
+        }
+        public void setActive(bool v)
+        {
+            if (v)
+            {
+                if (!state)
+                {
+                    sre.RecognizeAsync(RecognizeMode.Multiple);
+                }
+            }
+            else
+            {
+                if (state)
+                {
+                    sre.RecognizeAsyncCancel();
+                }
+            }
+            state = v;
             Manager.createSoundEffect(@"./Music/Purr.mp3");
         }
 

@@ -1012,8 +1012,8 @@
         <Grid x:Name="InfoGrid" HorizontalAlignment="Left" Height="0" Margin="22,563,0,0" VerticalAlignment="Top" Width="0">
         	<Rectangle VerticalAlignment="Bottom" Height="24"  Stroke="#AFDEAC56" Width="187.333" Style="{DynamicResource RectangleStyle1}"/>
         </Grid>
-        <Button x:Name="btnPlayPause_Copy" Height="43" Margin="665,385,94,0" VerticalAlignment="Top" Background="{x:Null}" Click="btnPlayPause_Click">
-        	<Image HorizontalAlignment="Left" x:Name="play1" Source="img/media-shuffle.png" Width="35" Height="47" />
+        <Button x:Name="btnRnd" Height="43" Margin="665,385,94,0" VerticalAlignment="Top" Background="{x:Null}" Click="btnRnd_Click">
+        	<Image HorizontalAlignment="Left" x:Name="rndImg" Source="img/media-shuffle.png" Width="35" Height="47" />
         </Button>
     </Grid>
 </Window>

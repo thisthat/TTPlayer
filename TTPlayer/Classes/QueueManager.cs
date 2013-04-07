@@ -23,15 +23,15 @@ namespace TTPlayer.Classes
         public QueueManager()
             : base()
         {
-            
+
         }
         //Singolo
-        public void AddElement(string abc)
+        /*public void AddElement(string abc)
         {
             this.Add(new Song(abc, abc));
             this.minID = this.First().ID;
             this.maxID = this.Last().ID;
-        }
+        }*/
 
         //Lista Elm Drop
         public void AddElement(StringCollection files)
@@ -50,8 +50,8 @@ namespace TTPlayer.Classes
                     this.Add(new Song(path, Utility.getTagTitle(path), u));
                 }
             }
-            this.minID = this.First().ID;
-            this.maxID = this.Last().ID;
+            this.minID = (this.Count != 0) ? this.First().ID : 0;
+            this.maxID = (this.Count != 0) ? this.Last().ID : 0;
         }
 
         //Lista Path
@@ -68,7 +68,7 @@ namespace TTPlayer.Classes
                 else if (validExt(path))
                 {
                     u = Utility.getTag(path);
-                    this.Add(new Song(path, Utility.getTagTitle(path) , u));
+                    this.Add(new Song(path, Utility.getTagTitle(path), u));
                 }
             }
             this.minID = (this.Count != 0) ? this.First().ID : 0;
@@ -78,6 +78,13 @@ namespace TTPlayer.Classes
         public void setRandom(bool v)
         {
             this.random = v;
+
+            Console.WriteLine("Prima:");
+            foreach (int i in l)
+            {
+                Console.Write(i + " ");
+            }
+
             if (v)
             {
                 l.Clear();
@@ -87,6 +94,14 @@ namespace TTPlayer.Classes
                 }
                 this.Shuffle(l);
             }
+
+            Console.WriteLine("Dopo:");
+            foreach (int i in l)
+            {
+                Console.Write(i + " ");
+            }
+            Console.WriteLine();
+            
         }
 
         //Shuffle della lista di appoggio per il random
@@ -130,7 +145,7 @@ namespace TTPlayer.Classes
         {
             Song elm;
             curElm--;
-            
+
             if (curElm < this.minID)
             {
                 curElm = this.maxID;

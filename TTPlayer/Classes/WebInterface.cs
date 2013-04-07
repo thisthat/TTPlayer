@@ -8,6 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 
 namespace TTPlayer.Classes
@@ -26,16 +27,22 @@ namespace TTPlayer.Classes
         private const string stop = "play:false";
         private const string rnd = "random:true";
         private const string nrm = "random:false";
+        private const string vocal = "speech:true";
+        private const string novocal = "speech:false";
 
         private FMODSongManager manager;
+        private TTSpeech speech;
         private Slider vol;
         private Dispatcher _dispatcher;
+        private Image rndImg;
 
-        public WebInterface(FMODSongManager m, Slider s)
+        public WebInterface(FMODSongManager m, TTSpeech sp, Slider s, Image _rnd)
         {
             manager = m;
+            speech = sp;
             vol = s;
             _dispatcher = m.getDispatcher();
+            this.rndImg = _rnd;
             Thread t = new Thread(this.receve);
             t.Start();
         }
@@ -94,8 +101,10 @@ namespace TTPlayer.Classes
                         case prev: _dispatcher.Invoke(DispatcherPriority.Normal, new Action(manager.setPrev)); break;
                         case start: _dispatcher.Invoke(DispatcherPriority.Normal, new Action(this.setPlay)); break;
                         case stop: _dispatcher.Invoke(DispatcherPriority.Normal, new Action(this.setPause)); break;
-                        case rnd:
-                        case nrm: break;
+                        case rnd: _dispatcher.Invoke(DispatcherPriority.Normal, new Action(this.setRandomOn)); break;
+                        case nrm: _dispatcher.Invoke(DispatcherPriority.Normal, new Action(this.setRandomOff)); break;
+                        case vocal: _dispatcher.Invoke(DispatcherPriority.Normal, new Action(this.setSpeechOn)); break;
+                        case novocal: _dispatcher.Invoke(DispatcherPriority.Normal, new Action(this.setSpeechOff)); break;
                         default: break;
                     }
 
@@ -120,7 +129,7 @@ namespace TTPlayer.Classes
         private void setVolumeUp()
         {
             float v = (vol.Value < 0.9) ? (float)vol.Value : 0.9f; v += 0.1f; vol.Value = v;
-            manager.setVolume(v); 
+            manager.setVolume(v);
             manager.createSoundEffect(@"./Music/volume.mp3");
         }
         private void setVolumeDown()
@@ -128,6 +137,33 @@ namespace TTPlayer.Classes
             float v = (vol.Value > 0.1) ? (float)vol.Value : 0.1f; v -= 0.1f; vol.Value = v;
             manager.setVolume(v); manager.createSoundEffect(@"./Music/volume.mp3");
         }
-
+        private void setRandomOn()
+        {
+            manager.setRandom(true);
+            Image myImage3 = new Image();
+            BitmapImage bi3 = new BitmapImage();
+            bi3.BeginInit();
+            bi3.UriSource = new Uri("img/media-shuffle.png", UriKind.Relative);
+            bi3.EndInit();
+            rndImg.Source = bi3;
+        }
+        private void setRandomOff()
+        {
+            manager.setRandom(false);
+            Image myImage3 = new Image();
+            BitmapImage bi3 = new BitmapImage();
+            bi3.BeginInit();
+            bi3.UriSource = new Uri("img/media-shuffle.png", UriKind.Relative);
+            bi3.EndInit();
+            rndImg.Source = bi3;
+        }
+        private void setSpeechOn()
+        {
+            speech.setActive(true);
+        }
+        private void setSpeechOff()
+        {
+            speech.setActive(false);
+        }
     }
 }

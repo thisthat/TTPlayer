@@ -35,7 +35,7 @@ namespace TTPlayer
             InitializeComponent();
 
             SetUpGUI();
-            
+
 
             //Test ListView 
             Lst_song.ItemsSource = _QueueManager;
@@ -48,11 +48,11 @@ namespace TTPlayer
 
             FManager = new FMODSongManager(Slider_Search, Slider_vol, this.Dispatcher, this.Lbl_info, this.Lbl_time, this.play);
             _QueueManager = new QueueManager();
-            
+
 
             FManager.setQueue(_QueueManager);
-            _TTSpeech = new TTSpeech(FManager,this.play,this.Slider_vol);
-            ww = new WebInterface(FManager, this.Slider_vol);
+            _TTSpeech = new TTSpeech(FManager, this.play, this.Slider_vol);
+            ww = new WebInterface(FManager, _TTSpeech, this.Slider_vol, this.rndImg);
 
             CkCoro.Foreground = Brushes.PaleVioletRed;
             CkDelay.Foreground = Brushes.OrangeRed;
@@ -105,6 +105,24 @@ namespace TTPlayer
             bi3.EndInit();
             play.Source = bi3;
         }
+        private void btnRnd_Click(object sender, RoutedEventArgs e)
+        {
+            Image myImage3 = new Image();
+            BitmapImage bi3 = new BitmapImage();
+            bi3.BeginInit();
+            if (FManager.setRandom())
+            {
+                //Siamo in rnd
+                bi3.UriSource = new Uri("img/media-shuffle.png", UriKind.Relative);
+            }
+            else
+            {
+                //Play normal
+                bi3.UriSource = new Uri("img/media-normal.png", UriKind.Relative);
+            }
+            bi3.EndInit();
+            rndImg.Source = bi3;
+        }
         private void btnNext_Click(object sender, RoutedEventArgs e)
         {
             FManager.setNext();
@@ -124,9 +142,10 @@ namespace TTPlayer
             }
             Song sel = Lst_song.Items[Lst_song.SelectedIndex] as Song;
             FManager.Play(sel);
+            _QueueManager.setPlay(sel);
         }
 
-        
+
 
         private void Slider_vol_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
@@ -135,7 +154,7 @@ namespace TTPlayer
 
         private void Slider_Search_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            
+
             uint val = (uint)Slider_Search.Value;
             float t = (float)(val - oldValue) / (float)Slider_Search.Maximum;
             if (t > 0.01)
@@ -204,7 +223,7 @@ namespace TTPlayer
         }
         #endregion
 
-        
+
         private void KeyPress(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Space)
@@ -212,5 +231,7 @@ namespace TTPlayer
                 _TTSpeech.setActive();
             }
         }
+
+
     }
 }
