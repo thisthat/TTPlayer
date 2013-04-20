@@ -73,6 +73,7 @@ namespace TTPlayer.Classes
                 sre.RecognizeAsync(RecognizeMode.Multiple);
             }
             state = !state;
+            Console.WriteLine("Speech:" + state);
             Manager.createSoundEffect(@"./Music/Purr.mp3");
         }
         public void setActive(bool v)
@@ -91,6 +92,7 @@ namespace TTPlayer.Classes
                     sre.RecognizeAsyncCancel();
                 }
             }
+            Console.WriteLine("Speech:" + v);
             state = v;
             Manager.createSoundEffect(@"./Music/Purr.mp3");
         }

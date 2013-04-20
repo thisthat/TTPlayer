@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
 		xmlns:Themes="assembly=PresentationFramework.Aero" xmlns:Themes1="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero" mc:Ignorable="d" x:Class="TTPlayer.MainWindow"
         x:Name="test"
-        Title="MainWindow" Height="590.334" Width="805.333" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" WindowStyle="None" MinWidth="800" Foreground="{x:Null}" Closing="Window_Closing_1" MouseLeftButtonDown="test_MouseLeftButtonDown" KeyDown="KeyPress">
+        Title="MainWindow" Height="590.334" Width="805.333" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" WindowStyle="None" MinWidth="800" Foreground="{x:Null}" Closing="Window_Closing_1" MouseLeftButtonDown="test_MouseLeftButtonDown" KeyDown="KeyPress" PreviewMouseDown="test_PreviewMouseDown" PreviewMouseUp="test_PreviewMouseUp">
 	<Window.Resources>
 		<SolidColorBrush x:Key="ListBorder" Color="#828790"/>
 
@@ -1013,7 +1013,7 @@
         	<Rectangle VerticalAlignment="Bottom" Height="24"  Stroke="#AFDEAC56" Width="187.333" Style="{DynamicResource RectangleStyle1}"/>
         </Grid>
         <Button x:Name="btnRnd" Height="43" Margin="665,385,94,0" VerticalAlignment="Top" Background="{x:Null}" Click="btnRnd_Click">
-        	<Image HorizontalAlignment="Left" x:Name="rndImg" Source="img/media-shuffle.png" Width="35" Height="47" />
+        	<Image HorizontalAlignment="Left" x:Name="rndImg" Source="img/media-normal.png" Width="35" Height="47" />
         </Button>
     </Grid>
 </Window>

@@ -28,8 +28,7 @@ namespace TTPlayer
         private QueueManager _QueueManager;
         private TTSpeech _TTSpeech;
         private WebInterface ww;
-        private uint oldValue = 0;
-
+        private bool _MouseDown = false;
         public MainWindow()
         {
             InitializeComponent();
@@ -46,7 +45,7 @@ namespace TTPlayer
         private void SetUpGUI()
         {
 
-            FManager = new FMODSongManager(Slider_Search, Slider_vol, this.Dispatcher, this.Lbl_info, this.Lbl_time, this.play);
+            FManager = new FMODSongManager(Slider_Search, Slider_vol, this.Dispatcher, this.Lbl_info, this.Lbl_time, this.play, this.Lst_song);
             _QueueManager = new QueueManager();
 
 
@@ -156,10 +155,8 @@ namespace TTPlayer
         {
 
             uint val = (uint)Slider_Search.Value;
-            float t = (float)(val - oldValue) / (float)Slider_Search.Maximum;
-            if (t > 0.01)
+            if(_MouseDown)
                 FManager.setPosition(val);
-            oldValue = val;
         }
 
         private void Lst_song_Drop(object sender, DragEventArgs e)
@@ -226,10 +223,20 @@ namespace TTPlayer
 
         private void KeyPress(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Space)
+            if (e.Key == Key.Escape)
             {
                 _TTSpeech.setActive();
             }
+        }
+
+        private void test_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            _MouseDown = true;
+        }
+
+        private void test_PreviewMouseUp(object sender, MouseButtonEventArgs e)
+        {
+            _MouseDown = false;
         }
 
 

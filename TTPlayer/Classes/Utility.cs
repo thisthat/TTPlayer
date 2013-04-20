@@ -14,8 +14,12 @@ namespace TTPlayer.Classes
         static public string getTagTitle(string path)
         {
             UltraID3 u = new UltraID3();
-            u.Read(path);
-            if (u.Title.Trim() == "")
+            try
+            {
+                u.Read(path);
+            }
+            catch (Exception e) { }
+            if (u != null || u.Title.Trim() == "")
             {
                 return getFileName(path);
             }
@@ -30,7 +34,11 @@ namespace TTPlayer.Classes
         static public UltraID3 getTag(string path)
         {
             UltraID3 u = new UltraID3();
-            u.Read(path);
+            try
+            {
+                u.Read(path);
+            }
+            catch (Exception e) {}
             return u;
         }
 

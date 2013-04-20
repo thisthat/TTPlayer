@@ -19,6 +19,8 @@ namespace TTPlayer.Classes
         private Slider s_song, s_vol;
         private Label info, time;
         private Image play_pausa;
+        private ListView lSong;
+
         //FMOD 
         private FMOD.System system = null;
         private FMOD.Sound sound = null;
@@ -60,7 +62,7 @@ namespace TTPlayer.Classes
 
 
         //Costruttore, necessita di tutti gli UI Element a cui fare l'update
-        public FMODSongManager(Slider l, Slider v, Dispatcher d, Label i, Label t, Image im)
+        public FMODSongManager(Slider l, Slider v, Dispatcher d, Label i, Label t, Image im, ListView lS)
         {
             this.s_song = l;
             this.s_vol = v;
@@ -68,6 +70,7 @@ namespace TTPlayer.Classes
             this.info = i;
             this.time = t;
             this.play_pausa = im;
+            this.lSong = lS;
 
             /*
                 Create a System object and initialize.
@@ -138,6 +141,8 @@ namespace TTPlayer.Classes
 
             current = s;
             s.isPlay = true;
+
+            setSelected(s);
             //this.lstCanzoni.setPlay(s);
 
             //CHIUDO LA VECCHIA
@@ -207,6 +212,23 @@ namespace TTPlayer.Classes
             this.changeButton();
         }
 
+
+        private void setSelected(Song s)
+        {
+            lSong.ScrollIntoView(s);
+            lSong.SelectedItem = s;
+            /*
+            int last = lSong.Items.Count;
+            Song tmp;
+            for (int i = 0; i < last; i++)
+            {
+                tmp = (Song)lSong.Items[i];
+                if (tmp.ID == s.ID)
+                {
+                    
+                }
+            }*/
+        }
         //THREAD che se c'è una canzone in exe calcola i tempi
         private void checkState()
         {
@@ -290,7 +312,7 @@ namespace TTPlayer.Classes
                         }
                     }
                     _dispatcher.Invoke(DispatcherPriority.Normal, new Action(this.setState));
-                    System.Threading.Thread.Sleep(10);
+                    System.Threading.Thread.Sleep(750);
                 }
             }
         }
@@ -307,8 +329,8 @@ namespace TTPlayer.Classes
             s_vol.Maximum = 1;
 
             time.Content = _time;
-            if (current != null)
-                info.Content = current.Tag.Artist;
+            if (current != null )
+                info.Content = (current.Tag != null) ? "" : current.Tag.Artist;
         }
 
         public void setNext()
